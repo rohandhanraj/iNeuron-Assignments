@@ -72,3 +72,15 @@ function addCssSucess(val) {
                                                 : (val == 12) ? $("#LSTAT").removeClass("successMessage")
                                                     : "";
 }
+
+function clear() {
+    var elements = document.getElementsByTagName("input");
+  for (var i=0; i < elements.length; i++) {
+        if (elements[i].type == "text") {
+          elements[i].value = "";
+        }
+  }
+}
+$("input").keyup(function() {
+    $("input").css("opacity", ".4");
+});
