@@ -40,6 +40,10 @@ def result():
             data = transform_generate(data)
             data = drop_features(data)
 
+            pred = model.predict(data)[0]
+            result = 'Survived' if pred == 1 else 'Died'
+            print(f'Result is: {result}')
+
             return render_template('result.html', result=result)
             
         except Exception as e:
