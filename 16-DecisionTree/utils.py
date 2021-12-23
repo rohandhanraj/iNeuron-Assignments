@@ -51,5 +51,5 @@ def transform_generate(df):
     return df
 
 def drop_feature(df):
-    
+    pass
 
