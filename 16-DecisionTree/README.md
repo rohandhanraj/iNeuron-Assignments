@@ -1,4 +1,4 @@
-# $$Assignment$$
+# Decision Tree Assignment
 
 ## Predicting Survival in the Titanic Data Set
 
@@ -20,19 +20,15 @@ from sklearn.cross_validation import train_test_split
 from sklearn import metrics
 from sklearn.metrics import classification_report
 
-Url = https://raw.githubusercontent.com/BigDataGal/Python-for-Data-
-Science/master/titanic-train.csv
+url = 'https://raw.githubusercontent.com/BigDataGal/Python-for-Data-Science/master/titanic-train.csv'
 
 titanic = pd.read_csv(url)
 
 titanic.columns =
-['PassengerId','Survived','Pclass','Name','Sex','Age','SibSp','Parch','Ti
-cket','Fare','Cabin','E mbarked']
+['PassengerId','Survived','Pclass','Name','Sex','Age','SibSp','Parch','Ticket','Fare','Cabin','Embarked']
 ```
 
-**You use only Pclass, Sex, Age, SibSp (Siblings aboard), Parch
-(Parents/children aboard), and Fare to predict whether a passenger
-survived.**
+**You use only Pclass, Sex, Age, SibSp (Siblings aboard), Parch (Parents/children aboard), and Fare to predict whether a passenger survived.**
 
 ## Task
 Deploy this assignment in any cloud platform.(Try to look for free cloud platform)
