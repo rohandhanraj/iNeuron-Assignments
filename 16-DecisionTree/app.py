@@ -36,7 +36,9 @@ def result():
             print(input_features)
             data = pd.DataFrame(input_features)
 
-            pass
+            data = reqd_preprocess(data)
+            data = transform_generate(data)
+            data = drop_features(data)
 
             return render_template('result.html', result=result)
             

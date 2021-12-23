@@ -18,16 +18,9 @@ titanic.columns = ['PassengerId','Survived','Pclass','Name','Sex','Age','SibSp',
 titanic['Embarked']=titanic['Embarked'].fillna(titanic['Embarked'].mode()[0])
 titanic['Age']=titanic['Age'].fillna(titanic['Age'].median())
 
-# Drop the columns that we don't need
-titanic.drop(columns = ['Cabin','PassengerId'],axis = 1,inplace = True)
-
-
-
-
-
-#Dropping the redundant columns...
-#Since the Ticket attribute has 681 unique tickets, it will be a bit lengthy to convert them into useful categories. So we will drop it from the dataset.
-titanic.drop(columns = ['Pclass','Age','SibSp','Not_alone','Ticket'],axis = 1,inplace = True)
+titanic = reqd_preprocess(titanic)
+titanic = transform_generate(titanic)
+titanic = drop_features(titanic)
 
 #Feature Variables
 x = titanic.drop('Survived',axis=1)

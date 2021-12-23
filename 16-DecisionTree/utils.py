@@ -50,6 +50,14 @@ def transform_generate(df):
 
     return df
 
-def drop_feature(df):
-    pass
+def drop_features(df):
+    # Drop the columns that we don't need
+    df.drop(columns = ['Cabin','PassengerId'],axis = 1,inplace = True)
+
+    #Dropping the redundant columns...
+    #Since the Ticket attribute has 681 unique tickets, it will be a bit lengthy to convert them into useful categories. So we will drop it from the dataset.
+    df.drop(columns = ['Pclass','Age','SibSp','Not_alone','Ticket'],axis = 1,inplace = True)
+
+    return df
+
 
