@@ -1,3 +1,6 @@
+import pandas as pd
+
+
 def reqd_preprocess(df):
     def _preprocess_age(df):
         df.loc[ df['Age'] <= 16, 'Age'] = 0
@@ -17,13 +20,16 @@ def reqd_preprocess(df):
         df['Fare'] = df['Fare'].astype(int)
         return df
     def _preprocess_name(df):
-        df['Name'] = df.Name.str.extract(' ([A-Za-z]+)\.', expand = False)
+        df['Name'] = df.Name.str.extract(' ?([A-Za-z]+)\.', expand = False)
         df['Name'].unique().tolist()
         df.rename(columns={'Name' : 'Title'}, inplace=True)
         # df['Title'] = df['Title'].replace(['Mme', 'Mlle', 'Ms', 'Miss'], 'Miss')
         df['Title'] = df['Title'].replace(['Rev', 'Dr', 'Col', 'Ms', 'Mlle', 'Major', 'Countess', 'Capt', 'Dona', 'Jonkheer', 'Lady', 'Sir', 'Mme', 'Don'], 'Other')
         return df
     
+    # Converting ['PassengerId', 'Pclass','Age', 'SibSp', 'Parch', 'Fare'] features to numeric values
+    df[['PassengerId', 'Pclass','Age', 'SibSp', 'Parch', 'Fare']] = df[['PassengerId', 'Pclass','Age', 'SibSp', 'Parch', 'Fare']].astype(float)
+
     # Preprocessing the Age feature
     df = _preprocess_age(df)
 
@@ -32,6 +38,7 @@ def reqd_preprocess(df):
 
     # Preprocessing the Name feature
     df = _preprocess_name(df)
+    
     return df
 
 def transform_generate(df):

@@ -65,6 +65,3 @@ function clear() {
         }
   }
 }
-$("input").keyup(function() {
-    $("input").css("opacity", ".4");
-});

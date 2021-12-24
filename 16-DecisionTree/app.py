@@ -13,7 +13,7 @@ import pickle
 #os.putenv('LANG', 'en_US.UTF-8')
 #os.putenv('LC_ALL', 'en_US.UTF-8')
 
-cols, model = pickle.load(open('dcsn_tree_clf.sav', 'rb'))
+model = pickle.load(open('dcsn_tree_clf.sav', 'rb'))
 
 app = Flask(__name__)
 #CORS(app)
@@ -32,15 +32,20 @@ def result():
         try:
             input_dict = request.form.to_dict()
             print(input_dict)
-            input_features = {k.strip(): [float(v)] for k, v in input_dict.items()}
+            input_features = {k.strip(): [v] for k, v in input_dict.items()}
             print(input_features)
             data = pd.DataFrame(input_features)
+            print('DataFrame Created:\n', data)
 
             data = reqd_preprocess(data)
+            print('Preprocessed Data:\n', data)
             data = transform_generate(data)
+            print('Transformed Data:\n', data)
             data = drop_features(data)
+            print('After drop:\n', data)
 
             pred = model.predict(data)[0]
+            print('Prediction:', pred)
             result = 'Survived' if pred == 1 else 'Died'
             print(f'Result is: {result}')
 

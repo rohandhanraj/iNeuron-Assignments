@@ -24,7 +24,6 @@ titanic = drop_features(titanic)
 
 #Feature Variables
 x = titanic.drop('Survived',axis=1)
-cols = x.columns
 #Target Variable
 y = titanic['Survived']
 
@@ -44,5 +43,5 @@ dtc = DecisionTreeClassifier(
 dtc.fit(x, y)
 print('Model Trained')
 
-pickle.dump([cols, dtc], open('dcsn_tree_clf.sav', 'wb'))
+pickle.dump(dtc, open('dcsn_tree_clf.sav', 'wb'))
 print('Model Saved')
