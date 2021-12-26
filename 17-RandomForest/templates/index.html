@@ -15,6 +15,11 @@
             <input type="number" name="CRIM" id="CRIM" placeholder="Crime Rate" step="any">
             <input type="number" name="ZN" id="ZN" placeholder="Residential land zoned" step="any">
             <input type="number" name="INDUS" id="INDUS" placeholder="Non-Retail Business acres" step="any">
+            <label for="CHAS">CHAS: </label>
+            <select name="CHAS" id="CHAS">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
             <input type="number" name="NOX" id="NOX" placeholder="Nitric Oxides concentration" step="any">
             <input type="number" name="RM" id="RM" placeholder=" Average Number of Rooms per dwelling" step="any">
             <input type="number" name="AGE" id="AGE" placeholder="Owner-Occupied units built" step="any">
@@ -24,10 +29,6 @@
             <input type="number" name="PTRATIO" id="PTRATIO" placeholder="Pupil-Teacher Ratio" step="any">
             <input type="number" name="B" id="B" placeholder="Proportion of Blacks" step="any">
             <input type="number" name="LSTAT" id="LSTAT" placeholder=" % lower status" step="any">
-            <select name="CHAS" id="CHAS">
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-            </select>
             <div align="right">
 				<input type="submit" value="Predict" class="button" style="background-color: green;" onclick="requiredCheck()">
 				<input type="submit" value="Clear" class="button" style="background-color: red;" onclick="clear()">
