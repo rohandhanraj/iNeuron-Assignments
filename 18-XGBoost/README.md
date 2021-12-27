@@ -1,12 +1,11 @@
-# $$Assignment$$
+<h1 style="color:#FF5733 ;font-size:38px;font-family:Lucida Handwriting;text-align:center;">⚓️<strong><u><b>XG Boost Assignment</b></u></strong>⚓️</h1>
 
-## In this assignment students need to predict whether a person makes over 50K per year or not from classic adult dataset using XGBoost. The description of the dataset is as follows:
+<p style= "font-family:Georgia;color:#229A00;font-size:110%;text-align:center;"><br> In this assignment students need to predict whether a person makes over 50K per year or not from classic adult dataset using XGBoost.</p>
 
-## Data Set Information:
+<h2 style="color:#FF5733 ;font-size:38px;font-family:Lucida Handwriting;text-align:center;">⚓️<strong><u><b>Data Set Information:</b></u></strong>⚓️</h2>
 
-Extraction was done by Barry Becker from the 1994 Census database.  
-A set of reasonably clean records was extracted using the following conditions:  
-$$((AAGE>16) && (AGI>100) && (AFNLWGT>1) && (HRSWK>0))$$
+<p style= "font-family:Georgia;color:#229A00;font-size:110%;text-align:center;"><br>Extraction was done by Barry Becker from the 1994 Census database.  
+A set of reasonably clean records was extracted using the following conditions:<br><strong><u><b>((AAGE>16) && (AGI>100) && (AFNLWGT>1) && (HRSWK>0))</b></u></strong></p>
 
 ### Attribute Information:
 * **Listing of attributes**: >50K, <=50K.
