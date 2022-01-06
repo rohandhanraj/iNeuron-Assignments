@@ -3,14 +3,18 @@ import numpy as np # linear algebra....
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)....
 from utils import * # preprocessing and transforming data....
 
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import FunctionTransformer, StandardScaler
+from sklearn.pipeline import Pipeline
+
 from  xgboost import XGBClassifier # Model building and training....
 
 import pickle
 
 
-train_set = pd.read_csv('http://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data', header = None)
+train_set = pd.read_csv('http://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.data', sep=', ', header = None, engine = 'python')
 
-test_set = pd.read_csv('http://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test' , skiprows = 1, header = None)
+test_set = pd.read_csv('http://archive.ics.uci.edu/ml/machine-learning-databases/adult/adult.test' , skiprows = 1, sep=', ', header = None, engine = 'python')
 
 col_labels = [
     'age',
@@ -36,29 +40,70 @@ test_set.columns = col_labels
 # Merging the Train and Test Datasets
 # 
 df = pd.concat([train_set, test_set], axis = 0)
-df['income']=df['wage_class'].map({' <=50K': 0, ' >50K': 1, ' <=50K.': 0, ' >50K.': 1})
+df['income']=df['wage_class'].map({'<=50K': 0, '>50K': 1, '<=50K.': 0, '>50K.': 1})
 df = df.drop(['wage_class'], axis = 1)
-df[['education_num', 'income']] = df[['education_num', 'income']].astype('int')
 
-# MISSING VALUES(' ?') in DataFrame..... 
-missing = df.columns[np.where(df.eq(' ?').sum() > 0)]
-# Fill the missing values with the mode of the column
-for col in missing:
-    df[col][df[col] == ' ?'] = df[col].value_counts().index[0]
+# Dropping the irrelevant observations
+df = df.iloc[np.where((df.age > 16) & ((df.capital_gain > 100) | (df.capital_loss > 100)) & (df.fnlwgt > 1) & (df.hours_per_week > 0))]
 
-df['capital_gain'] = df['capital_gain'] - df['capital_loss']
-df = df.rename(columns={'capital_gain': 'capital_gross'})
+X = df.drop(['income'], axis = 1)
+y = df['income']
 
-df.drop(columns=['education_num'], axis = 1, inplace = True)
-mean_encoder = {}
-#iterate through the columns
-for col in [i for i in df.columns if df[i].dtypes=='O' and i != 'split']:
-    mean_encoder[col] = df[[col, 'income']].groupby([col]).mean().to_dict()['income']
-df = df.replace(mean_encoder)
-df[df.columns[df.dtypes=='O'][:-1]] = df[df.columns[df.dtypes=='O'][:-1]].astype('float')
+# Creating encoder for Categorical variables
+encoder = create_encoder(X, y)
 
-df.drop('relationship', axis = 1, inplace = True)
-df["marital_status"] = df["marital_status"].replace([' Married-civ-spouse',' Married-spouse-absent',' Married-AF-spouse'], 'Married')
-df["marital_status"] = df["marital_status"].replace([' Never-married',' Divorced',' Separated',' Widowed'], 'Single')
-df["marital_status"] = df["marital_status"].map({"Married":0, "Single":1})
-df = df.rename(columns={'marital_status': 'couple'})
+# Function Transformers
+trans1 = FunctionTransformer(transformer1)
+trans2 = FunctionTransformer(transformer2, kw_args={'encoder': encoder})
+
+# Scaling The features
+# [listing the columns which won't be dropped by transformer1 & transformer2]
+scale = ColumnTransformer(transformers=[
+    (
+        'scaler',
+        StandardScaler(),
+        [
+            'age',
+            'workclass',
+            'fnlwgt',
+            'education',
+            'marital_status',
+            'occupation',
+            'race',
+            'sex',
+            'capital_gain',
+            'hours_per_week',
+            'native_country'
+        ]
+    )
+])
+
+# Building model with best parameters
+params = {
+    'alpha': 0.01,
+    'booster': 'dart',
+    'eta': 0.0008,
+    'gamma': 0.0012,
+    'lambda': 0.01,
+    'learning_rate': 0.11,
+    'max_depth': 50,
+    'n_estimators': 670,
+    'objective': 'binary:logistic',
+    'random_state': 0,
+    'tree_method': 'auto'
+ }
+
+model = XGBClassifier( **params)
+
+# Defining the Pipeline and fitting it
+pipeline = Pipeline(steps=[
+    ('transformer1', trans1),
+    ('transformer2', trans2),
+    ('scaler', scale),
+    ('model', model)
+],
+verbose=True)
+
+pipeline.fit(X, y)
+
+pickle.dump(pipeline, open('model.sav', 'wb'))

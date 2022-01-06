@@ -13,7 +13,7 @@ import pickle
 #os.putenv('LANG', 'en_US.UTF-8')
 #os.putenv('LC_ALL', 'en_US.UTF-8')
 
-model = pickle.load(open('dcsn_tree_clf.sav', 'rb'))
+
 
 app = Flask(__name__)
 #CORS(app)
@@ -22,10 +22,10 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])  # To render Homepage
 @cross_origin()
 def home_page():
-    return render_template('index.html')
+    return render_template('titanic.html')
 
 
-@app.route('/result', methods=['POST'])  # To render Result page
+@app.route('/dt-res', methods=['POST'])  # To render Result page
 @cross_origin()
 def result():
     if request.method == 'POST':
@@ -36,6 +36,8 @@ def result():
             print(input_features)
             data = pd.DataFrame(input_features)
             print('DataFrame Created:\n', data)
+
+            model = pickle.load(open('dcsn_tree_clf.sav', 'rb'))
 
             data = reqd_preprocess(data)
             print('Preprocessed Data:\n', data)
@@ -49,13 +51,13 @@ def result():
             result = 'Survived' if pred == 1 else 'Died'
             print(f'Result is: {result}')
 
-            return render_template('result.html', result=result)
+            return render_template('dt_res.html', result=result)
             
         except Exception as e:
             print('The Exception message is: \n',e)
             return 'Something went wrong'
     else:
-        return render_template('index.html')
+        return render_template('titanic.html')
 
 #port = int(os.getenv("PORT", 5000))
 if __name__ == '__main__':

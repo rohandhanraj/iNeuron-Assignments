@@ -22,10 +22,10 @@ app = Flask(__name__)
 @app.route('/', methods=['GET', 'POST'])  # To render Homepage
 @cross_origin()
 def home_page():
-    return render_template('index.html')
+    return render_template('affairs.html')
 
 
-@app.route('/result', methods=['POST'])  # To render Result page
+@app.route('/log-res', methods=['POST'])  # To render Result page
 @cross_origin()
 def result():
     if request.method == 'POST':
@@ -52,13 +52,13 @@ def result():
             result = 'Yes' if pred == 1 else 'No'
             print(f'Result is: {result}')
 
-            return render_template('result.html', result=result)
+            return render_template('log_res.html', result=result)
             
         except Exception as e:
             print('The Exception message is: \n',e)
             return 'Something went wrong'
     else:
-        return render_template('index.html')
+        return render_template('affairs.html')
 
 #port = int(os.getenv("PORT", 5000))
 if __name__ == '__main__':
