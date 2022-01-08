@@ -7,18 +7,18 @@
 {% endblock %}
 
 {% block body %}
-<div class="content">
-    <h1 style="text-align: center">Price Estimate for House at Boston</h1>
-
-    <div class="form">
+<header class="content bg-primary">
+            <h1 style="text-align:center">Boston House Price Prediction</h1>
+</header>
+    <div class="form bg-default">
         <form action="javascript:void(0)" id="fdata" method="post">
             <input type="number" name="CRIM" id="CRIM" placeholder="Crime Rate" step="any">
             <input type="number" name="ZN" id="ZN" placeholder="Residential land zoned" step="any">
             <input type="number" name="INDUS" id="INDUS" placeholder="Non-Retail Business acres" step="any">
             <input type="number" name="NOX" id="NOX" placeholder="Nitric Oxides concentration" step="any">
             <select name="CHAS" id="CHAS">
-                <option value="1">Yes</option>
-                <option value="0">No</option>
+                <option value="1">CHAS: Yes</option>
+                <option value="0">CHAS: No</option>
             </select>
             <input type="number" name="RM" id="RM" placeholder=" Average Number of Rooms per dwelling" step="any">
             <input type="number" name="AGE" id="AGE" placeholder="Owner-Occupied units built" step="any">
@@ -35,6 +35,6 @@
 			</div>
         </form>
     </div>
-</div>
+
 <script src="{{ url_for('static', filename='js/boston.js') }}"></script>
 {% endblock %}

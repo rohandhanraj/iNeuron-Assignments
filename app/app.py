@@ -13,14 +13,11 @@ import pickle
 #os.putenv('LANG', 'en_US.UTF-8')
 #os.putenv('LC_ALL', 'en_US.UTF-8')
 
-model = pickle.load(open('lr.sav', 'rb'))
-
 app = Flask(__name__)
 #CORS(app)
 
 
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/home', methods=['GET', 'POST'])  # To render Homepage
+@app.route('/', methods=['GET', 'POST'])  # To render Homepage
 @cross_origin()
 def home_page():
     return render_template('index.html')
@@ -32,28 +29,28 @@ def lin_reg():
 
 @app.route('/log-reg', methods=['GET', 'POST'])  # To render Homepage
 @cross_origin()
-def home_page():
+def log_reg():
     return render_template('affairs.html')
 
 @app.route('/dt', methods=['GET', 'POST'])  # To render Homepage
 @cross_origin()
-def home_page():
+def dt_clf():
     return render_template('titanic.html')
 
 @app.route('/rf', methods=['GET', 'POST'])  # To render Homepage
 @cross_origin()
-def home_page():
+def rf_reg():
     return render_template('boston_rf.html')
 
 @app.route('/xgb', methods=['GET', 'POST'])  # To render Homepage
 @cross_origin()
-def home_page():
+def xgb_clf():
     return render_template('adult_income.html')
 
 
 @app.route('/xgb-res', methods=['POST'])  # To render Result page
 @cross_origin()
-def result():
+def xgb_result():
     if request.method == 'POST':
         try:
             input_dict = request.form.to_dict()
@@ -83,7 +80,7 @@ def result():
 
 @app.route('/rf-res', methods=['POST'])  # To render Result page
 @cross_origin()
-def result():
+def rf_result():
     if request.method == 'POST':
         try:
             input_dict = request.form.to_dict()
@@ -110,7 +107,7 @@ def result():
 
 @app.route('/dt-res', methods=['POST'])  # To render Result page
 @cross_origin()
-def result():
+def dt_result():
     if request.method == 'POST':
         try:
             input_dict = request.form.to_dict()
@@ -145,7 +142,7 @@ def result():
 
 @app.route('/log-res', methods=['POST'])  # To render Result page
 @cross_origin()
-def result():
+def log_result():
     if request.method == 'POST':
         try:
             input_dict = request.form.to_dict()
@@ -183,12 +180,12 @@ def result():
 
 @app.route('/lr-res', methods=['POST'])  # To render Result page
 @cross_origin()
-def result():
+def lr_result():
     if request.method == 'POST':
         try:
             input_dict = request.form.to_dict()
             print(input_dict)
-            input_features = {k.strip(): [float(v)] for k, v in input_dict.items() if k != 'CHAS'}
+            input_features = {k.strip(): [float(v)] for k, v in input_dict.items()}
             print(input_features)
             data = pd.DataFrame(input_features)
 
