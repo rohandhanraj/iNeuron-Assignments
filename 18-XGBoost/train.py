@@ -43,14 +43,15 @@ df = pd.concat([train_set, test_set], axis = 0)
 df['income']=df['wage_class'].map({'<=50K': 0, '>50K': 1, '<=50K.': 0, '>50K.': 1})
 df = df.drop(['wage_class'], axis = 1)
 
+# Creating encoder for Categorical variables
+encoder = create_encoder(df.drop(['income'], axis = 1), df['income'])
+
 # Dropping the irrelevant observations
 df = df.iloc[np.where((df.age > 16) & ((df.capital_gain > 100) | (df.capital_loss > 100)) & (df.fnlwgt > 1) & (df.hours_per_week > 0))]
 
 X = df.drop(['income'], axis = 1)
 y = df['income']
 
-# Creating encoder for Categorical variables
-encoder = create_encoder(X, y)
 
 # Function Transformers
 trans1 = FunctionTransformer(transformer1)
